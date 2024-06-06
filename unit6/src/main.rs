@@ -1,6 +1,4 @@
 fn main() {
-    // 6.1定义枚举(TODO:懂的比较模糊，先看后面的内容再回头看)
-
     // let four = IpAddrKind::V4;
     // let six = IpAddrKind::V6;
 
@@ -53,6 +51,45 @@ fn main() {
     // }
 
     // 6.3 简洁的控制流程if let
+
+    // let config_max = Some(5u8);
+    // match config_max {
+    //     Some(max) => {
+    //         println!("The maximum is configured to be {}", max);
+    //     }
+    //     _ => (),
+    // }
+
+    // if let Some(max) = config_max {
+    //     println!("The maximum is configured to be {}", max);
+    // }
+
+    // let mut count = 0;
+    // match coin {
+    //     Coin::Quarter(state) => println!("State quarter from {:?}!", state),
+    //     _ => count += 1,
+    // }
+
+    // let mut count = 0;
+    // if let Coin::Quarter(state) = coin {
+    //     println!("State quarter from {:?}!", state);
+    // } else {
+    //     count += 1;
+    // }
+
+    let x = Some(5);
+    let y = Some(6);
+
+    let x_val = match x {
+        Some(n) => n,
+        None => 0,
+    };
+    let y_val = match y {
+        Some(n) => n,
+        None => 0,
+    };
+    let add = x_val + y_val;
+    println!("add: {:?}", add);
 }
 
 // 6.1定义枚举
