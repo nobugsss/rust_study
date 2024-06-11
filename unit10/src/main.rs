@@ -104,11 +104,86 @@ fn main() {
     //     }
     // }
 
+    // 生命周期引用
+    fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+
     let string1 = String::from("abcd");
     let string2 = "xyz";
 
     let result = longest(string1.as_str(), string2);
     println!("The longest string is {result}");
+
+    // 传递拥有不同具体生命周期的引用来限制 longest 函数的使用
+    let string3 = String::from("long string is long!");
+    {
+        let string4 = String::from("xyz");
+        let result = longest(string3.as_str(), string4.as_str());
+        println!("The longest string is {result}");
+    }
+
+    // 该例子揭示了 result 的引用的生命周期必须是两个参数中较短的那个
+    // longest 函数返回的引用的生命周期应该与传入参数的生命周期中较短那个保持一致,所以下面的代码无法编译
+    // let string5 = String::from("long string is long");
+    // let result;
+    // {
+    //     let string6 = String::from("xyz");
+    //     result = longest(string5.as_str(), string6.as_str());
+    // }
+    // println!("The longest string is {result}");
+
+    // 结构体定义中的生命周期注解结构体定义中的生命周期注解
+    struct ImportantExcerpt<'a> {
+        part: &'a str,
+    }
+    let novel = String::from("Call me Ishmael. Some years ago...");
+    let first_sentence = novel.split('.').next().unwrap();
+    let i = ImportantExcerpt {
+        part: first_sentence,
+    };
+    println!("i.part: {}", i.part);
+
+    // 方法定义中的生命周期注解
+    impl<'a> ImportantExcerpt<'a> {
+        fn level(&self) -> i32 {
+            3
+        }
+    }
+    impl<'a> ImportantExcerpt<'a> {
+        fn announce_and_return_part(&self, announce_and_return_part: &str) -> &str {
+            println!("Attention please: {announce_and_return_part}");
+            self.part
+        }
+    }
+    println!("i.levle: {:?}", i.level());
+    println!(
+        "i.announce_and_return_part: {:?}",
+        i.announce_and_return_part("hello")
+    );
+
+    // 静态生命周期
+    let ss: &'static str = "I have a static lifetime."; //'static，其生命周期能够存活于整个程序期间。所有的字符串字面值都拥有 'static 生命周期
+    println!("ss: {:?}", ss);
+    // 结合泛型类型参数、trait bounds 和生命周期
+    // 在同一函数中指定泛型类型参数、trait bounds 和生命周期的语法！
+    // 下面的代码留到后面研究
+    // use std::fmt::Display;
+    // fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
+    // where
+    //     T: Display,
+    // {
+    //     println!("Announcement! {ann}");
+    //     if x.len() > y.len() {
+    //         x
+    //     } else {
+    //         y
+    //     }
+    // }
 }
 
 fn largest_fn(list: &[i32]) -> &i32 {
