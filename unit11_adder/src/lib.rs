@@ -14,6 +14,11 @@ pub fn greeting2(name: &str) -> String {
     format!("Hello!")
 }
 
+// 私有也可测试
+fn internal_adder(a: i32, b: i32) -> i32 {
+    a + b
+}
+
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -136,11 +141,18 @@ mod tests {
     // }
 
     // 将 Result<T, E> 用于测试
-    fn test_result() -> Result<T, E> {
+    #[test]
+    fn test_result() -> Result<(), String> {
         if 2 + 2 == 4 {
             Ok(())
         } else {
-            Err("dsdfsf")
+            Err(String::from("two plus two does not equal four"))
         }
+    }
+
+    // 测试私有函数
+    #[test]
+    fn internal() {
+        assert_eq!(6, internal_adder(4, 2));
     }
 }
