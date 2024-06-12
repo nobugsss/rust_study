@@ -1,0 +1,4 @@
+lines=Are you nobody, too?
+lines=How dreary to be somebody!
+lines=To tell your name the livelong day
+lines=To an admiring bog!
