@@ -3,6 +3,12 @@ name = "unit13"
 version = "0.1.0"
 edition = "2021"
 
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+opt-level = 3 #值从 0 到 3。越高的优化级别需要更多的时间编译
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
