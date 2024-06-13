@@ -90,6 +90,10 @@ fn main() {
     println!("{list:#?}");
 
     // 尝试在 sort_by_key 上使用一个 FnOnce 闭包
+    // 该代码尝试在闭包的环境中向 sort_operations vector 放入 value— 一个 String 来实现计数。
+    // 包捕获了 value 然后通过转移 value 的所有权的方式将其移出闭包给到 sort_operations vector。
+    // 这个闭包可以被调用一次，尝试再次调用它将报错。因为这时 value 已经不在闭包的环境中，无法被再次放到 sort_operations 中
+    // 因而，这个闭包只实现了 FnOnce
     // let mut list = [
     //     Rectangle {
     //         width: 10,
@@ -113,6 +117,10 @@ fn main() {
     //     r.width
     // });
     // println!("{list:#?}");
+
+    // 报错指向了闭包体中将 value 移出环境的那一行。
+    // 要修复这里，我们需要改变闭包体让它不将值移出环境。
+
     let mut list = [
         Rectangle {
             width: 10,
@@ -134,6 +142,21 @@ fn main() {
         r.width
     });
     println!("{list:#?}, sorted in {num_sort_operations} operations");
+
+    // 13.2. 使用迭代器处理元素序列
+    let v1 = vec![1, 2, 3];
+    let v1_iter = v1.iter();
+
+    for val in v1_iter {
+        println!("Got: {val}");
+    }
+    // println!("v1_iter: {:?}", v1_iter);
+
+    // 调用 map 方法创建一个新迭代器，接着调用 collect 方法消费新迭代器并创建一个 vector
+    let v1: Vec<i32> = vec![1, 2, 3];
+    let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
+
+    assert_eq!(v2, vec![2, 3, 4]);
 }
 
 #[derive(Debug, PartialEq, Copy, Clone)]
@@ -190,4 +213,4 @@ struct Rectangle {
     height: u32,
 }
 
-// TODO: 13.1后半部分需要巩固
+// 13.2. 使用迭代器处理元素序列
