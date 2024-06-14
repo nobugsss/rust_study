@@ -17,4 +17,9 @@ mod tests {
         let result = add(2, 2);
         assert_eq!(result, 4);
     }
+
+    #[test]
+    fn add_one_test() {
+        assert_eq!(3, add_one(2));
+    }
 }
