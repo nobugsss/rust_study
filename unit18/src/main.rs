@@ -205,6 +205,21 @@ fn main() {
         }
         Message::Hello { id } => println!("Found some other id: {id}"),
     }
+
+    // 特征对象 &dyn Trait
+    trait Draw {
+        fn draw(&self);
+    }
+    struct Circle;
+    impl Draw for Circle {
+        fn draw(&self) {
+            println!("Drawing a circle");
+        }
+    }
+
+    let circle = Circle;
+    circle.draw();
+    // obj.draw();
 }
 
 // enum Message {

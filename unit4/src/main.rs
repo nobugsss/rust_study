@@ -2,7 +2,6 @@ fn main() {
     // let s = "hello";
     // let s = String::from("hello");
 
-
     // let mut s = String::from("hello");
     // s.push_str(", world.");
     // println!("{}", s);
@@ -72,6 +71,25 @@ fn main() {
     // let a = [1, 2, 3, 4, 5];
     // let b = a;
     // println!("a={}, b={}", a, b);
+
+    let my_string = String::from("hello world");
+
+    // `first_word` 适用于 `String`（的 slice），部分或全部
+    let word = first_word(&my_string[0..6]);
+    let word = first_word(&my_string[..]);
+    // `first_word` 也适用于 `String` 的引用，
+    // 这等价于整个 `String` 的 slice
+    let word = first_word(&my_string);
+
+    let my_string_literal = "hello world";
+
+    // `first_word` 适用于字符串字面值，部分或全部
+    let word = first_word(&my_string_literal[0..6]);
+    let word = first_word(&my_string_literal[..]);
+
+    // 因为字符串字面值已经 **是** 字符串 slice 了，
+    // 这也是适用的，无需 slice 语法！
+    let word = first_word(my_string_literal);
 }
 
 // fn takes_ownership(some_string: String) {
@@ -129,3 +147,7 @@ fn main() {
 //     }
 //     &s[..]
 // }
+
+fn first_word(s: &str) -> &str {
+    s
+}
