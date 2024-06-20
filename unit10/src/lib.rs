@@ -10,7 +10,10 @@ pub trait Summary {
     // 默认实现允许调用相同 trait 中的其他方法，哪怕这些方法没有默认实现。如此，trait 可以提供很多有用的功能而只需要实现指定一小部分内容
     fn summarize_author(&self) -> String;
     fn summarize(&self) -> String {
-        format!("(Read more from {}...)", self.summarize_author())
+        format!("(Read more from {}...)", self.summarize2())
+    }
+    fn summarize2(&self) -> String {
+        format!("(Read more from2 {}...)", self.summarize_author())
     }
 }
 
@@ -32,6 +35,8 @@ pub struct NewsArticle {
 
 impl Summary for NewsArticle {
     fn summarize_author(&self) -> String {
+        // println!("ddddddd: {}", Summary::summarize(self));
+        // Summary::summarize(self);
         format!("ccccc{}", self.author)
     }
 }

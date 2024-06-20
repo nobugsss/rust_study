@@ -84,7 +84,7 @@ fn main() {
         ),
     };
 
-    println!("New article available! {}", article.summarize());
+    println!("New article available! {}", article.summarize_author());
 
     // 10.3. 生命周期确保引用有效
     let r;
