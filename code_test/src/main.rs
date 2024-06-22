@@ -22,15 +22,70 @@ fn main() {
     println!("person.greet: {}", person.greet());
     println!("person2.greet: {}", person2.greet());
 
-    fn notify<T: Greet>(item1: &T, item2: &T) {
-        item1.greet();
-        item2.greet();
-        // if item2.greet() == 1 {
-        //     item2.greet()
-        // } else {
-        //     item1.greet()
-        // }
-    }
+    // fn notify<T: Greet>(item1: &T, item2: &T) {
+    //     item1.greet();
+    //     item2.greet();
+    // }
+    // let x = "x";
+    // let y: &str = &x;
+    // println!("y:{}", x);
+
+    // fn longest<'a, 'b>(x: &'a str, y: &'b str) -> &'a str {
+    //     if x.len() > y.len() {
+    //         x
+    //     } else {
+    //         y
+    //     }
+    // }
+
+    // let r: &'a i32;
+
+    // {
+    //     let x: i32 = 5;
+    //     r = &x;
+    // }
+
+    // println!("r: {r}");
+    struct Point;
+    let x = String::from("hello world");
+    let v = vec![1, 2, 3, 4];
+    let x1 = &x;
+    let x2 = &x1;
+    let x3 = &x2;
+    let x4 = x1;
+    let s = "hello world";
+
+    println!("String: {}", size_of::<String>());
+    println!("vec: {}", size_of::<Vec<i32>>());
+    println!("&String: {}", size_of::<&String>());
+    println!("point: {}", size_of::<&Point>());
+    println!("&str: {}", size_of::<&str>());
+    let v1 = vec![1, 2, 3];
+
+    let mut v1_iter = v1.into_iter();
+    assert_eq!(v1_iter.next(), Some(1));
+
+    let v1 = vec![1, 2, 3];
+
+    let v1_iter = v1.iter();
+
+    let total: i32 = v1_iter.sum();
+
+    assert_eq!(total, 6);
+
+    let b: Box<i32> = Box::new(5);
+    println!("b = {b}");
+    println!("Box: {}", size_of::<Box<i32>>());
+
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    println!("{}", r1);
+    let r2 = &mut s;
+
+    // println!("{:?}", v1_iter);
+
+    // println!("v1: {:?}", v1);
 }
 
 // trait Greet {
