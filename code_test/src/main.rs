@@ -86,6 +86,50 @@ fn main() {
     // println!("{:?}", v1_iter);
 
     // println!("v1: {:?}", v1);
+
+    enum Coin {
+        Penny,
+        Nickel,
+        Dime,
+        Quarter,
+    }
+
+    fn value_in_cents(coin: Coin) -> u8 {
+        match coin {
+            Coin::Penny => 1,
+            Coin::Nickel => 5,
+            Coin::Dime => 10,
+            Coin::Quarter => 25,
+        }
+    }
+    println!("valid coin: {}", value_in_cents(Coin::Penny));
+
+    enum Message {
+        Hello { id: i32 },
+    }
+
+    let msg = Message::Hello { id: 5 };
+
+    match msg {
+        Message::Hello {
+            id: id_variable @ 3..=7,
+        } => println!("Found an id in range: {id_variable}"),
+        Message::Hello { id: 10..=12 } => {
+            println!("Found an id in another range")
+        }
+        Message::Hello { id } => println!("Found some other id: {id}"),
+    }
+    for i in 1..5 {
+        println!("i: {:?}", i)
+    }
+
+    let mut v = vec![1, 2, 3, 4, 5, 6];
+
+    let r = &mut v[..];
+    let (a, b) = r.split_at_mut(3);
+    assert_eq!(a, &mut [1, 2, 3]);
+    assert_eq!(b, &mut [4, 5, 6]);
+    // println!("a: {:?} b: {:?}", a, b)
 }
 
 // trait Greet {
