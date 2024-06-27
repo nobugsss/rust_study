@@ -1,4 +1,3 @@
-workspace = { members = ["server-threads"] }
 [package]
 name = "unit20"
 version = "0.1.0"
