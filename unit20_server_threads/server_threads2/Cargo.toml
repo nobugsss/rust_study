@@ -1,6 +1,5 @@
-workspace = { members = ["server_threads2"] }
 [package]
-name = "unit20_server_threads"
+name = "server_threads2"
 version = "0.1.0"
 edition = "2021"
 
