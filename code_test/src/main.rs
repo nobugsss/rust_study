@@ -1,6 +1,6 @@
 fn main() {
     let school = School {
-        name: String::from("xxx"),
+        name: String::from("xxx学校"),
         age: 100,
     };
     school.do_sth(|age| {
