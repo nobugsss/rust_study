@@ -39,6 +39,14 @@ fn main() {
     // 显示链表的最后状态
     println!("linked list has length: {}", list.len());
     println!("{:?}", list.stringify());
+
+    let strings = vec!["tofu", "93", "18"];
+    let (numbers, errors): (Vec<_>, Vec<_>) = strings
+        .into_iter()
+        .map(|s| s.parse::<i32>())
+        .partition(Result::is_ok);
+    println!("Numbers: {:?}", numbers);
+    println!("Errors: {:?}", errors);
 }
 
 struct School {
