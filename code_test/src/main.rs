@@ -47,6 +47,35 @@ fn main() {
         .partition(Result::is_ok);
     println!("Numbers: {:?}", numbers);
     println!("Errors: {:?}", errors);
+
+    let reference = &4;
+
+    match reference {
+        // 如果用 `&val` 这个模式去匹配 `reference`，就相当于做这样的比较：
+        // `&i32`（译注：即 `reference` 的类型）
+        // `&val`（译注：即用于匹配的模式）
+        // ^ 我们看到，如果去掉匹配的 `&`，`i32` 应当赋给 `val`。
+        // 译注：因此可用 `val` 表示被 `reference` 引用的值 4。
+        &val => println!("Got a value via destructuring: {:?}", val),
+    }
+
+    let num = 555;
+    let r1 = &num as *const i32;
+    println!("Address of num: {:p}", &num);
+    println!("r1 points to: {:p}", r1);
+
+    let num2 = 555;
+    let r2 = num2 as *const i32;
+    println!("r2 points to: {:p}", r2);
+    println!("num2 points to: {:p}", &num2);
+
+    let array = [1, -2, 6, 4, 5];
+    match array {
+        [first, middle @ .., last] => println!(
+            "array[0] = {}, middle = {:?}, array[2] = {}",
+            first, middle, last
+        ),
+    }
 }
 
 struct School {
