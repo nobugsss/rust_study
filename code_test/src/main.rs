@@ -76,6 +76,61 @@ fn main() {
             first, middle, last
         ),
     }
+
+    let vec1 = vec![1, 2, 3];
+    let vec2 = vec![4, 5, 6];
+
+    // 对 vec1 的 `iter()` 举出 `&i32` 类型。
+    let mut iter = vec1.iter();
+    // 对 vec2 的 `into_iter()` 举出 `i32` 类型。
+    let mut into_iter = vec2.into_iter();
+
+    // 对迭代器举出的元素的引用是 `&&i32` 类型。解构成 `i32` 类型。
+    // 译注：注意 `find` 方法会把迭代器元素的引用传给闭包。迭代器元素自身
+    // 是 `&i32` 类型，所以传给闭包的是 `&&i32` 类型。
+    println!("Find 2 in vec1: {:?}", iter.find(|&&x| x == 2));
+    // 对迭代器举出的元素的引用是 `&i32` 类型。解构成 `i32` 类型。
+    println!("Find 2 in vec2: {:?}", into_iter.find(|&x| x == 2));
+
+    let haystack = vec![1, 2, 3];
+
+    let contains = |needle| haystack.contains(needle);
+
+    println!("{}", contains(&1));
+    println!("{}", contains(&4));
+    println!("There're {} elements in vec", haystack.len());
+
+    let movable = Box::new(3);
+
+    let consume = || {
+        println!("`movable`: {:?}", movable);
+    };
+
+    println!("There're {} elements in vec", movable); // 检查这里是否编译错误
+
+    consume();
+    println!("There're {} elements in vec", movable); // 检查这里是否编译错误
+
+    let greeting = "hello";
+    // 不可复制的类型。
+    // `to_owned` 从借用的数据创建有所有权的数据。
+    let mut farewell = "goodbye".to_owned();
+
+    // 捕获 2 个变量：通过引用捕获 `greeting`，通过值捕获 `farewell`。
+    let diary = || {
+        // `greeting` 通过引用捕获，故需要闭包是 `Fn`。
+        println!("I said {}.", greeting);
+
+        // 下文改变了 `farewell` ，因而要求闭包通过可变引用来捕获它。
+        // 现在需要 `FnMut`。
+        farewell.push_str("!!!");
+        println!("Then I screamed {}.", farewell);
+        println!("Now I can sleep. zzzzz");
+
+        // 手动调用 drop 又要求闭包通过值获取 `farewell`。
+        // 现在需要 `FnOnce`。
+        drop(farewell);
+    };
 }
 
 struct School {
