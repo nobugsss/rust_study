@@ -264,7 +264,7 @@ impl fmt::Display for List2 {
             write!(f, "{}:{}", count, v)?;
         }
 
-        // 加上配对中括号，并返回一个 fmt::Result 值。
+        // 加上配对中括号，并返回一个 fmt::Result 值
         write!(f, "]")
     }
 }
