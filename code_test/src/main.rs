@@ -134,6 +134,22 @@ fn main() {
 
     let v = List2(vec![1, 2, 3]);
     println!("{}", v);
+
+    // 借助上述宏来创建名为 `foo` 和 `bar` 的函数。
+    create_function!(foo);
+    create_function!(bar);
+    foo();
+    bar();
+
+    use code_test::print_result;
+    print_result!(1u32 + 1);
+
+    // 回想一下，代码块也是表达式！
+    print_result!({
+        let x = 1u32;
+
+        x * x + 2 * x - 1
+    });
 }
 
 struct School {
@@ -268,3 +284,5 @@ impl fmt::Display for List2 {
         write!(f, "]")
     }
 }
+
+use code_test::create_function;
