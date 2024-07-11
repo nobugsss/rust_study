@@ -150,6 +150,100 @@ fn main() {
 
         x * x + 2 * x - 1
     });
+
+    let mut point = Point { x: 0, y: 0, z: 0 };
+
+    let borrowed_point = &point;
+    let another_borrow = &point;
+    println!(
+        "Point has coordinates: ({}, {}, {})",
+        borrowed_point.x, another_borrow.y, point.z
+    );
+
+    #[derive(Debug, Clone, Copy)]
+    struct Point2 {
+        x: i32,
+        y: i32,
+    }
+    let point2 = Point2 { x: 0, y: 0 };
+    // `point` 的可变拷贝
+    let mut mutable_point = point2;
+    println!("{:?}", point2);
+
+    #[derive(Debug)]
+    struct Person {
+        name: String,
+        age: u8,
+    }
+
+    let person = Person {
+        name: String::from("Alice"),
+        age: 20,
+    };
+
+    // `name` 从 person 中移走，但 `age` 只是引用
+    let Person { ref name, age } = person;
+
+    println!("The person's age is {}", age);
+
+    println!("The person's name is {}", name);
+
+    // 报错！部分移动值的借用：`person` 部分借用产生
+    println!("The person struct is {:?}", person);
+
+    // `person` 不能使用，但 `person.age` 因为没有被移动而可以继续使用
+    println!("The person's age from person struct is {}", person.age);
+
+    use std::mem;
+    // （所有的类型标注都不是必需的）
+    // 栈分配的变量
+    let point: Point3 = origin();
+    let rectangle: Rectangle = Rectangle {
+        p1: origin(),
+        p2: Point3 { x: 3.0, y: 4.0 },
+    };
+
+    // 堆分配的 rectangle（矩形）
+    let boxed_rectangle: Box<Rectangle> = Box::new(Rectangle {
+        p1: origin(),
+        p2: origin(),
+    });
+
+    // 函数的输出可以装箱
+    let boxed_point: Box<Point3> = Box::new(origin());
+
+    // 两层装箱
+    let box_in_a_box: Box<Box<Point3>> = Box::new(boxed_origin());
+
+    println!(
+        "Point occupies {} bytes in the stack",
+        mem::size_of_val(&point)
+    );
+    println!(
+        "Rectangle occupies {} bytes in the stack",
+        mem::size_of_val(&rectangle)
+    );
+
+    // box 的宽度就是指针宽度
+    println!(
+        "Boxed point occupies {} bytes in the stack",
+        mem::size_of_val(&boxed_point)
+    );
+    println!(
+        "Boxed rectangle occupies {} bytes in the stack",
+        mem::size_of_val(&boxed_rectangle)
+    );
+    println!(
+        "Boxed box occupies {} bytes in the stack",
+        mem::size_of_val(&box_in_a_box)
+    );
+
+    // 将包含在 `boxed_point` 中的数据复制到 `unboxed_point`
+    let unboxed_point: Point3 = *boxed_point;
+    println!(
+        "Unboxed point occupies {} bytes in the stack",
+        mem::size_of_val(&unboxed_point)
+    );
 }
 
 struct School {
@@ -286,3 +380,31 @@ impl fmt::Display for List2 {
 }
 
 use code_test::create_function;
+
+struct Point {
+    x: i32,
+    y: i32,
+    z: i32,
+}
+
+#[allow(dead_code)]
+#[derive(Debug, Clone, Copy)]
+struct Point3 {
+    x: f64,
+    y: f64,
+}
+
+#[allow(dead_code)]
+struct Rectangle {
+    p1: Point3,
+    p2: Point3,
+}
+
+fn origin() -> Point3 {
+    Point3 { x: 0.0, y: 0.0 }
+}
+
+fn boxed_origin() -> Box<Point3> {
+    // 在堆上分配这个点（point），并返回一个指向它的指针
+    Box::new(Point3 { x: 0.0, y: 0.0 })
+}
